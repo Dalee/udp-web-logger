@@ -10,10 +10,10 @@ import (
 
 // HTTPServer encapsulates HTTP server API.
 type HTTPServer struct {
-	server     *http.Server
-	messages   []*Message
-	logger     *log.Logger
-	bufferSize int
+	server      *http.Server
+	messages    []*Message
+	logger      *log.Logger
+	maxMessages int
 }
 
 // Serve starts serving requests.
@@ -60,7 +60,7 @@ func (h *HTTPServer) Shutdown() {
 
 // AddMessage prepends message to the slice.
 func (h *HTTPServer) AddMessage(message *Message) {
-	if len(h.messages) >= h.bufferSize {
+	if len(h.messages) >= h.maxMessages {
 		h.messages = []*Message{message}
 	} else {
 		h.messages = append([]*Message{message}, h.messages...)
@@ -68,12 +68,12 @@ func (h *HTTPServer) AddMessage(message *Message) {
 }
 
 // NewHTTPServer creates new HTTP server.
-func NewHTTPServer(addr string, bufferSize int) *HTTPServer {
+func NewHTTPServer(addr string, maxMessages int) *HTTPServer {
 	server := &HTTPServer{
-		logger:     log.New(os.Stdout, "http > ", log.Ldate|log.Ltime),
-		messages:   make([]*Message, 0),
-		server:     &http.Server{Addr: addr},
-		bufferSize: bufferSize,
+		logger:      log.New(os.Stdout, "http > ", log.Ldate|log.Ltime),
+		messages:    make([]*Message, 0),
+		server:      &http.Server{Addr: addr},
+		maxMessages: maxMessages,
 	}
 
 	fs := http.FileServer(http.Dir("public"))
