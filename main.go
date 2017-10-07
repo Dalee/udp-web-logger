@@ -25,13 +25,12 @@ WEB_LISTEN - address to listen HTTP on.
 func main() {
 	udpReadBufferSize := flag.Int("udp-read-buffer-size", 4096, "Buffer size to read into")
 	maxMessages := flag.Int("max-messages", 50, "Maximum message to keep")
-	help := flag.Bool("help", false, "Show help")
-	flag.Parse()
 
-	if *help {
+	flag.Usage = func() {
 		fmt.Print(usage)
-		return
 	}
+
+	flag.Parse()
 
 	udp := pkg.NewUDPServer(os.Getenv("UDP_LISTEN"))
 	web := pkg.NewHTTPServer(os.Getenv("WEB_LISTEN"), *maxMessages)
