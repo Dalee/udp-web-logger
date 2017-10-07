@@ -23,8 +23,8 @@ WEB_LISTEN - address to listen HTTP on. Default: 127.0.0.1:9000.
 `
 
 func main() {
-	udpReadBufferSize := flag.Int("udp-read-buffer-size", 4096, "Buffer size to read into")
-	maxMessages := flag.Int("max-messages", 50, "Maximum message to keep")
+	udpReadBufferSize := flag.Int("udp-read-buffer-size", 4096, "")
+	maxMessages := flag.Int("max-messages", 50, "")
 	udpListen := os.Getenv("UDP_LISTEN")
 	webListen := os.Getenv("WEB_LISTEN")
 

@@ -41,7 +41,7 @@
      */
     function onStartClick() {
         fetchLogEntries();
-        timer = setInterval(fetchLogEntries, 5000);
+        timer = setInterval(fetchLogEntries, 2000);
 
         stopButton.disabled = false;
         startButton.disabled = true;
