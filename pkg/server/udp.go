@@ -1,4 +1,4 @@
-package pkg
+package server
 
 import (
 	"bytes"
@@ -52,8 +52,11 @@ func NewUDPServer(addr string) *UDPServer {
 		panic(err)
 	}
 
+	logger := log.New(os.Stdout, "udp > ", log.Ldate|log.Ltime)
+	logger.Println("Listening " + a.String())
+
 	return &UDPServer{
-		logger: log.New(os.Stdout, "udp > ", log.Ldate|log.Ltime),
+		logger: logger,
 		conn:   conn,
 	}
 }

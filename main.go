@@ -5,7 +5,7 @@ import (
 	"fmt"
 	"os"
 	"time"
-	"udp-web-logger/pkg"
+	"udp-web-logger/pkg/server"
 )
 
 var usage = `
@@ -17,14 +17,16 @@ Options:
 --help                   prints this message.
 
 Env:
-UDP_LISTEN - address to listen UDP on.
-WEB_LISTEN - address to listen HTTP on.
+UDP_LISTEN - address to listen UDP on. Default: 127.0.0.1:9010.
+WEB_LISTEN - address to listen HTTP on. Default: 127.0.0.1:9000.
 
 `
 
 func main() {
 	udpReadBufferSize := flag.Int("udp-read-buffer-size", 4096, "Buffer size to read into")
 	maxMessages := flag.Int("max-messages", 50, "Maximum message to keep")
+	udpListen := os.Getenv("UDP_LISTEN")
+	webListen := os.Getenv("WEB_LISTEN")
 
 	flag.Usage = func() {
 		fmt.Print(usage)
@@ -32,13 +34,21 @@ func main() {
 
 	flag.Parse()
 
-	udp := pkg.NewUDPServer(os.Getenv("UDP_LISTEN"))
-	web := pkg.NewHTTPServer(os.Getenv("WEB_LISTEN"), *maxMessages)
+	if udpListen == "" {
+		udpListen = "127.0.0.1:9010"
+	}
 
-	go web.Serve()
+	if webListen == "" {
+		webListen = "127.0.0.1:9000"
+	}
+
+	udp := server.NewUDPServer(udpListen)
+	web := server.NewHTTPServer(webListen, *maxMessages)
 
 	defer udp.Shutdown()
 	defer web.Shutdown()
+
+	go web.Serve()
 
 	go func() {
 		for {

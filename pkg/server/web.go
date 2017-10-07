@@ -1,4 +1,4 @@
-package pkg
+package server
 
 import (
 	"encoding/json"
@@ -6,6 +6,7 @@ import (
 	"net/http"
 	"os"
 	"strconv"
+	"udp-web-logger/pkg/static"
 )
 
 // HTTPServer encapsulates HTTP server API.
@@ -76,9 +77,7 @@ func NewHTTPServer(addr string, maxMessages int) *HTTPServer {
 		maxMessages: maxMessages,
 	}
 
-	fs := http.FileServer(http.Dir("public"))
-
-	http.Handle("/", fs)
+	http.Handle("/", http.FileServer(static.HTTP))
 	http.HandleFunc("/api/log", server.HandleLog)
 
 	return server
