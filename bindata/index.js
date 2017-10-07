@@ -13,6 +13,7 @@
     const lastUpdateContainer = w.document.getElementById('last_update');
     const startButton = w.document.getElementById('start');
     const stopButton = w.document.getElementById('stop');
+    const clearButton = w.document.getElementById('clear');
 
     /**
      * Stops interval, disables the stop button
@@ -26,12 +27,21 @@
     }
 
     /**
+     * Clears all the messages.
+     */
+    function onClearClick() {
+        while (entriesContainer.firstChild) {
+            entriesContainer.removeChild(entriesContainer.firstChild);
+        }
+    }
+
+    /**
      * Starts interval, disables the start button
      * and enables the stop.
      */
     function onStartClick() {
         fetchLogEntries();
-        timer = setInterval(fetchLogEntries, 5000);
+        timer = setInterval(fetchLogEntries, 2000);
 
         stopButton.disabled = false;
         startButton.disabled = true;
@@ -39,6 +49,7 @@
 
     stopButton.addEventListener('click', onStopClick);
     startButton.addEventListener('click', onStartClick);
+    clearButton.addEventListener('click', onClearClick);
 
     startButton.dispatchEvent(new Event('click'));
 
