@@ -13,3 +13,21 @@ script:
   - make templates
   - make test
   - make build-linux
+
+before_deploy:
+  - mkdir -p release
+  - GOOS=linux GOARCH=amd64 go build -ldflags "-w -s" -o release/udp-web-logger-v$TRAVIS_TAG-linux-amd64
+
+deploy:
+  provider: releases
+  skip_cleanup: true
+
+  file:
+    - release/udp-web-logger-v$TRAVIS_TAG-linux-amd64
+
+  on:
+    repo: ns3777k/udp-web-logger
+    tags: true
+
+  api-key:
+    secure: bYdN4waKPfsIA0tzadz/UBqe6nAdpAynwOS3TXVKE810Kav5hDRjvE3OkfruShLdJxnaoK6ZWd35TUPDCm+6dabjWBOCDpETQeGKyosXtO9mvAmNwF19meqZVo7wBYSKxY8JilI7LkYHAVuZRt3mGXySqFCn66FDuGRjzqloStmsxThOp6v2UFrDfEk87dE4t2+qrOKnP7cWp8it23Wg1vWjXaILNWdWF1kkOMOHMawqhutE396OWQYrduSNfExnHx9ryuMBcyqITeTxWma41JDVUqHpDqOdeF0DONA7lreyARqS7ZQcRbXvJDU4TJaYB4AsZag0lqMYIEVFsuvevKD3iFs+0x5e5NeS3s5jgFOWBBi7l1OxmENiE2EZI3kGdtCNMYR5Ni7x68i2i5qVoLgRboL5W6BVX6m04hDBEL/xqpLkU6r00rd1QOTY/yq7mU1/8Oa4mkcHitobfhrqJtkNOFb81NVFN6mYYN4LsO0H4PfkZRvF7KgqSICDatWkwM1ksydTVVrxV6CAKiICCfg/mjO2G90Msok6u8PO8Ls/oqC/F/dN8P2QSRFTBgioHtRhffhAETXzZgdHM4MRLrOj3/+/fwwcTfF4S4PkRNZXd71W35tiCYTYykszOXPrpT0u92jKgLDbuVRU4P1vxLFwGggHVE43AfCdaE41LMI=
