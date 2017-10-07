@@ -13,6 +13,7 @@
     const lastUpdateContainer = w.document.getElementById('last_update');
     const startButton = w.document.getElementById('start');
     const stopButton = w.document.getElementById('stop');
+    const clearButton = w.document.getElementById('clear');
 
     /**
      * Stops interval, disables the stop button
@@ -23,6 +24,15 @@
 
         stopButton.disabled = true;
         startButton.disabled = false;
+    }
+
+    /**
+     * Clears all the messages.
+     */
+    function onClearClick() {
+        while (entriesContainer.firstChild) {
+            entriesContainer.removeChild(entriesContainer.firstChild);
+        }
     }
 
     /**
@@ -39,6 +49,7 @@
 
     stopButton.addEventListener('click', onStopClick);
     startButton.addEventListener('click', onStartClick);
+    clearButton.addEventListener('click', onClearClick);
 
     startButton.dispatchEvent(new Event('click'));
 
