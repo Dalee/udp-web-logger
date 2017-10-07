@@ -1,15 +1,15 @@
 language: go
 
 go:
-	- 1.8.x
-	- 1.9.x
+  - 1.8.x
+  - 1.9.x
 
 go_import_path: udp-web-logger
 
 install:
-	- make install
+  - make install
 
 script:
-	- make templates
-	- make test
-	- make build-linux
+  - make templates
+  - make test
+  - make build-linux
