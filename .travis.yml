@@ -1,7 +1,6 @@
 language: go
 
 go:
-  - 1.8.x
   - 1.9.x
 
 go_import_path: udp-web-logger
@@ -16,14 +15,16 @@ script:
 
 before_deploy:
   - mkdir -p release
-  - GOOS=linux GOARCH=amd64 go build -ldflags "-w -s" -o release/udp-web-logger-v$TRAVIS_TAG-linux-amd64
+  - GOOS=linux GOARCH=amd64 go build -ldflags "-w -s" -o release/udp-web-logger-$TRAVIS_TAG-linux-amd64
+  - GOOS=darwin GOARCH=amd64 go build -ldflags "-w -s" -o release/udp-web-logger-$TRAVIS_TAG-darwin-amd64
 
 deploy:
   provider: releases
   skip_cleanup: true
 
   file:
-    - release/udp-web-logger-v$TRAVIS_TAG-linux-amd64
+    - release/udp-web-logger-$TRAVIS_TAG-linux-amd64
+    - release/udp-web-logger-$TRAVIS_TAG-darwin-amd64
 
   on:
     repo: ns3777k/udp-web-logger
