@@ -8,18 +8,21 @@ import (
 	"time"
 )
 
+// UDPServer encapsulates UDP server API.
 type UDPServer struct {
 	conn   *net.UDPConn
-	Logger *log.Logger
+	logger *log.Logger
 }
 
+// ReadMessage reads bytes from UDP and serializes them into
+// Message struct.
 func (u *UDPServer) ReadMessage(bufferSize int) (*Message, error) {
 	buf := make([]byte, bufferSize)
 
 	_, remote, err := u.conn.ReadFromUDP(buf)
 
 	if err != nil {
-		u.Logger.Println(err)
+		u.logger.Println(err)
 		return nil, err
 	}
 
@@ -32,10 +35,12 @@ func (u *UDPServer) ReadMessage(bufferSize int) (*Message, error) {
 	return message, err
 }
 
+// Shutdown closes UDP listener.
 func (u *UDPServer) Shutdown() {
 	u.conn.Close()
 }
 
+// NewUDPServer creates new UDP server.
 func NewUDPServer(addr string) *UDPServer {
 	a, err := net.ResolveUDPAddr("udp", addr)
 	if err != nil {
@@ -48,7 +53,7 @@ func NewUDPServer(addr string) *UDPServer {
 	}
 
 	return &UDPServer{
-		Logger: log.New(os.Stdout, "udp > ", log.Ldate|log.Ltime),
+		logger: log.New(os.Stdout, "udp > ", log.Ldate|log.Ltime),
 		conn:   conn,
 	}
 }

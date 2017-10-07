@@ -1,13 +1,14 @@
 package main
 
 import (
+	"os"
 	"time"
 	"udp-web-logger/pkg"
 )
 
 func main() {
-	udp := pkg.NewUDPServer("127.0.0.1:9010")
-	web := pkg.NewHTTPServer("127.0.0.1:9000")
+	udp := pkg.NewUDPServer(os.Getenv("UDP_LISTEN"))
+	web := pkg.NewHTTPServer(os.Getenv("WEB_LISTEN"), 5)
 
 	go web.Serve()
 
@@ -16,7 +17,7 @@ func main() {
 
 	go func() {
 		for {
-			message, err := udp.ReadMessage(2048)
+			message, err := udp.ReadMessage(4096)
 			if err != nil {
 				continue
 			}

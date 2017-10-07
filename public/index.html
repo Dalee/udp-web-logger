@@ -2,11 +2,22 @@
 <html lang="en">
     <head>
         <meta charset="UTF-8" />
-        <title>UDP Web Logger</title>
-        <link href="/index.css" type="text/css" rel="stylesheet" />
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+		<title>UDP Web Logger</title>
+		<link href="/index.css" type="text/css" rel="stylesheet" />
     </head>
     <body>
-        <div id="container"></div>
+        <div id="container">
+			<h2>UDP Web Logger</h2>
+			<div class="controls">
+				<button id="start">Start</button>
+				<button id="stop">Stop</button>
+			</div>
+			<div id="last_update"></div>
+			<div id="entries"></div>
+		</div>
         <script src="/index.js" type="text/javascript"></script>
     </body>
 </html>
