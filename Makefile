@@ -20,5 +20,5 @@ build-linux:
 	GOOS=linux GOARCH=amd64 go build -ldflags "-w -s" -o ./udp-web-logger ./main.go
 
 .PHONY: docker
-docker: build-linux
+docker: templates build-linux
 		docker build -t udp-web-logger:1 .
