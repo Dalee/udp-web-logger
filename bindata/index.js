@@ -9,22 +9,12 @@
 
     let timer = null;
     let lastUnix = 0;
+    let isFetching = false;
+
     const entriesContainer = w.document.getElementById('entries');
     const lastUpdateContainer = w.document.getElementById('last_update');
-    const startButton = w.document.getElementById('start');
-    const stopButton = w.document.getElementById('stop');
+    const toggleButton = w.document.getElementById('toggle');
     const clearButton = w.document.getElementById('clear');
-
-    /**
-     * Stops interval, disables the stop button
-     * and enables the start.
-     */
-    function onStopClick() {
-        clearInterval(timer);
-
-        stopButton.disabled = true;
-        startButton.disabled = false;
-    }
 
     /**
      * Clears all the messages.
@@ -39,19 +29,24 @@
      * Starts interval, disables the start button
      * and enables the stop.
      */
-    function onStartClick() {
-        fetchLogEntries();
-        timer = setInterval(fetchLogEntries, 2000);
+    function onToggleClick() {
+        if (!isFetching) {
+            fetchLogEntries();
+            timer = setInterval(fetchLogEntries, 2000);
 
-        stopButton.disabled = false;
-        startButton.disabled = true;
+            toggleButton.innerText = toggleButton.dataset.stop;
+        } else {
+            clearInterval(timer);
+            toggleButton.innerText = toggleButton.dataset.start;
+        }
+
+        isFetching = !isFetching;
     }
 
-    stopButton.addEventListener('click', onStopClick);
-    startButton.addEventListener('click', onStartClick);
+    toggleButton.addEventListener('click', onToggleClick);
     clearButton.addEventListener('click', onClearClick);
 
-    startButton.dispatchEvent(new Event('click'));
+    toggleButton.dispatchEvent(new Event('click'));
 
     /**
      * Generates markup for an entry.

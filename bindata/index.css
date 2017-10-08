@@ -1,7 +1,11 @@
-html, body {
+html, body, h2 {
 	margin: 0;
 	padding: 0;
-	color: #333333;
+}
+
+body {
+	color: #444444;
+	background-color: #eaeaea;
 }
 
 #container {
@@ -19,6 +23,7 @@ html, body {
 	border: 1px solid #e4e4e4;
 	padding: 8px;
 	margin-bottom: 7px;
+	border-radius: 7px;
 }
 
 .meta {
@@ -34,4 +39,5 @@ html, body {
 
 .controls {
 	margin-bottom: 10px;
+	margin-top: 10px
 }
