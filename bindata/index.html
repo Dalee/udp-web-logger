@@ -10,15 +10,26 @@
 		<link rel="shortcut icon" href="data:image/x-icon;," type="image/x-icon" />
 	</head>
     <body>
-        <div id="container">
-			<h2>UDP Web Logger</h2>
+		<div class="container header">
+			<h2 class="title">UDP Web Logger</h2>
 			<div class="controls">
-				<button data-start="Start" data-stop="Stop" id="toggle"></button>
-				<button id="clear">Clear all</button>
+				<button class="button" data-start="start" data-stop="stop" id="toggle"></button>
+				<button class="button" id="clear">clear all</button>
 			</div>
-			<div id="last_update"></div>
-			<div id="entries"></div>
 		</div>
+		<div class="container subheader">
+			<div id="last_update"></div>
+		</div>
+		<table class="log_table">
+			<thead>
+				<tr>
+					<th class="log_col_left_pad log_col_pad log_col_nowrap">Date</th>
+					<th class="log_col_pad log_col_nowrap">Source IP</th>
+					<th>Payload</th>
+				</tr>
+			</thead>
+			<tbody id="entries"></tbody>
+		</table>
         <script src="/index.js" type="text/javascript"></script>
     </body>
 </html>

@@ -35,9 +35,14 @@
             timer = setInterval(fetchLogEntries, 2000);
 
             toggleButton.innerText = toggleButton.dataset.stop;
+            toggleButton.classList.remove(toggleButton.dataset.start);
+            toggleButton.classList.add(toggleButton.dataset.stop);
         } else {
             clearInterval(timer);
+
             toggleButton.innerText = toggleButton.dataset.start;
+            toggleButton.classList.remove(toggleButton.dataset.stop);
+            toggleButton.classList.add(toggleButton.dataset.start);
         }
 
         isFetching = !isFetching;
@@ -56,10 +61,9 @@
      */
     function getEntryContentMarkup(entry) {
         return `
-            <div>
-                <div class="payload">${entry.payload}</div>
-                <div class="meta">${entry.time} ${entry.ip}</div>
-            </div>
+            <td class="log_col_left_pad log_col_pad log_col_nowrap">${entry.time}</td>
+            <td class="log_col_pad log_col_nowrap">${entry.ip}</td>
+            <td>${entry.payload}</td>
         `;
     }
 
@@ -76,7 +80,7 @@
         lastUnix = entries[entries.length - 1].unix;
 
         entries.forEach(entry => {
-            const el = w.document.createElement('div');
+            const el = w.document.createElement('tr');
             el.className = 'entry';
             el.innerHTML = getEntryContentMarkup(entry);
             entriesContainer.prepend(el);
