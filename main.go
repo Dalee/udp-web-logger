@@ -42,7 +42,7 @@ func main() {
 		webListen = "127.0.0.1:9000"
 	}
 
-	udp := server.NewUDPServer(udpListen)
+	udp := server.NewUDPServer(udpListen, nil)
 	web := server.NewHTTPServer(webListen, *maxMessages)
 
 	defer udp.Shutdown()

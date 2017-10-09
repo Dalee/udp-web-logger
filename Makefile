@@ -11,9 +11,11 @@ templates:
 
 .PHONY: test
 test:
-	ineffassign ./
+	ineffassign main.go ./pkg/server/
+	golint -set_exit_status ./pkg/server/...
 	gofmt -d -s -e main.go ./pkg/server/
 	misspell -error README.md main.go ./pkg/server/*
+	go test -race -coverprofile=coverage.txt -covermode=atomic ./pkg/server/
 
 .PHONY: build-linux
 build-linux:
