@@ -13,15 +13,19 @@ type Message struct {
 	Time    time.Time `json:"time"`
 }
 
+// Alias is used for marshaling to avoid infinite recursion.
+type Alias Message
+
+type jsonMessage struct {
+	Time string `json:"time"`
+	Unix int64  `json:"unix"`
+	*Alias
+}
+
 // MarshalJSON implements Marshaler interface to reformat
 // time to human readable format.
 func (m *Message) MarshalJSON() ([]byte, error) {
-	type Alias Message
-	return json.Marshal(&struct {
-		Time string `json:"time"`
-		Unix int64  `json:"unix"`
-		*Alias
-	}{
+	return json.Marshal(&jsonMessage{
 		Time:  m.Time.Format(time.Stamp),
 		Unix:  m.Time.Unix(),
 		Alias: (*Alias)(m),
