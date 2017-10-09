@@ -12,6 +12,7 @@ import (
 type UDPServer struct {
 	conn   *net.UDPConn
 	logger *log.Logger
+	addr   *net.UDPAddr
 }
 
 // ReadMessage reads bytes from UDP and serializes them into
@@ -37,11 +38,13 @@ func (u *UDPServer) ReadMessage(bufferSize int) (*Message, error) {
 
 // Shutdown closes UDP listener.
 func (u *UDPServer) Shutdown() {
-	u.conn.Close()
+	if err := u.conn.Close(); err != nil {
+		panic(err)
+	}
 }
 
 // NewUDPServer creates new UDP server.
-func NewUDPServer(addr string) *UDPServer {
+func NewUDPServer(addr string, logger *log.Logger) *UDPServer {
 	a, err := net.ResolveUDPAddr("udp", addr)
 	if err != nil {
 		panic(err)
@@ -52,7 +55,10 @@ func NewUDPServer(addr string) *UDPServer {
 		panic(err)
 	}
 
-	logger := log.New(os.Stdout, "udp > ", log.Ldate|log.Ltime)
+	if logger == nil {
+		logger = log.New(os.Stdout, "udp > ", log.Ldate|log.Ltime)
+	}
+
 	logger.Println("Listening " + a.String())
 
 	return &UDPServer{
