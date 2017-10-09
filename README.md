@@ -1,6 +1,7 @@
 # UDP Web Logger
 
 [![Build Status](https://travis-ci.org/ns3777k/udp-web-logger.svg?branch=master)](https://travis-ci.org/ns3777k/udp-web-logger)
+[![codecov](https://codecov.io/gh/ns3777k/udp-web-logger/branch/master/graph/badge.svg)](https://codecov.io/gh/ns3777k/udp-web-logger)
 
 ## Why
 
