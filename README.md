@@ -20,7 +20,7 @@ you can embed this daemon into a `Vagrant` box.
 ```
 $ UDP_LISTEN="127.0.0.1:10110" WEB_LISTEN="127.0.0.1:10100" ./udp-web-logger --help
 
-Usage: udp-web-logger [options].
+Usage: udp-web-logger [options]
 
 Options:
 --udp-read-buffer-size   size of buffer to read incoming UDP packet into. Default: 4096.

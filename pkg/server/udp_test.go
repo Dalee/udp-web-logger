@@ -9,33 +9,33 @@ import (
 )
 
 var (
-	server *UDPServer
-	conn   net.Conn
+	udpServer *UDPServer
+	conn      net.Conn
 )
 
-func setup() {
+func setupUDP() {
 	var err error
 	logger := log.New(ioutil.Discard, "", 0)
-	server = NewUDPServer("localhost:9999", logger)
-	raddr := server.conn.LocalAddr()
+	udpServer = NewUDPServer("localhost:9999", logger)
+	raddr := udpServer.conn.LocalAddr()
 
 	if conn, err = net.Dial(raddr.Network(), raddr.String()); err != nil {
 		panic(err)
 	}
 }
 
-func teardown() {
-	server.Shutdown()
+func teardownUDP() {
+	udpServer.Shutdown()
 }
 
-func TestReadMessage(t *testing.T) {
-	setup()
-	defer teardown()
+func TestUDPServerReadMessage(t *testing.T) {
+	setupUDP()
+	defer teardownUDP()
 
 	bytesPayload := []byte("Some test message")
 	conn.Write(bytesPayload)
 
-	message, err := server.ReadMessage(512)
+	message, err := udpServer.ReadMessage(512)
 
 	if err != nil {
 		t.Fatal(err)
