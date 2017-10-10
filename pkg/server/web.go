@@ -22,7 +22,7 @@ func (h *HTTPServer) Serve() {
 	h.logger.Println("Serving http://" + h.server.Addr)
 
 	if err := h.server.ListenAndServe(); err != nil {
-		panic(err)
+		h.logger.Println(err)
 	}
 }
 
@@ -31,15 +31,15 @@ func (h *HTTPServer) HandleLog(w http.ResponseWriter, r *http.Request) {
 	w.WriteHeader(http.StatusOK)
 	w.Header().Add("Content-Type", "application/json")
 
-	lastTimestamp := r.URL.Query().Get("ts")
+	lastTimestampQuery := r.URL.Query().Get("ts")
+	ts, _ := strconv.ParseInt(lastTimestampQuery, 10, 64)
 
-	if lastTimestamp == "" {
+	if ts == 0 {
 		b, _ := json.Marshal(h.messages)
 		w.Write(b)
 		return
 	}
 
-	ts, _ := strconv.ParseInt(lastTimestamp, 10, 64)
 	lastMessages := make([]*Message, 0)
 
 	for _, message := range h.messages {
@@ -69,16 +69,22 @@ func (h *HTTPServer) AddMessage(message *Message) {
 }
 
 // NewHTTPServer creates new HTTP server.
-func NewHTTPServer(addr string, maxMessages int) *HTTPServer {
+func NewHTTPServer(addr string, maxMessages int, logger *log.Logger) *HTTPServer {
+	if logger == nil {
+		logger = log.New(os.Stdout, "http > ", log.Ldate|log.Ltime)
+	}
+
+	mux := http.NewServeMux()
+
 	server := &HTTPServer{
-		logger:      log.New(os.Stdout, "http > ", log.Ldate|log.Ltime),
+		logger:      logger,
 		messages:    make([]*Message, 0),
-		server:      &http.Server{Addr: addr},
+		server:      &http.Server{Addr: addr, Handler: mux},
 		maxMessages: maxMessages,
 	}
 
-	http.Handle("/", http.FileServer(static.HTTP))
-	http.HandleFunc("/api/log", server.HandleLog)
+	mux.Handle("/", http.FileServer(static.HTTP))
+	mux.HandleFunc("/api/log", server.HandleLog)
 
 	return server
 }

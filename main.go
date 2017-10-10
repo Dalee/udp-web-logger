@@ -43,7 +43,7 @@ func main() {
 	}
 
 	udp := server.NewUDPServer(udpListen, nil)
-	web := server.NewHTTPServer(webListen, *maxMessages)
+	web := server.NewHTTPServer(webListen, *maxMessages, nil)
 
 	defer udp.Shutdown()
 	defer web.Shutdown()
