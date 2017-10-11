@@ -29,7 +29,7 @@ deploy:
     - release/udp-web-logger-$TRAVIS_TAG-darwin-amd64
 
   on:
-    repo: ns3777k/udp-web-logger
+    repo: Dalee/udp-web-logger
     tags: true
 
   api-key:
