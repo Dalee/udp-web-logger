@@ -38,4 +38,4 @@ https://github.com/Dalee/elk-playground
 
 https://github.com/Dalee/node-logger
 
-https://github.com/ns3777k/monolog-syslog3164
+https://github.com/Dalee/monolog-syslog3164
