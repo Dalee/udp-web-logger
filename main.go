@@ -4,7 +4,6 @@ import (
 	"flag"
 	"fmt"
 	"os"
-	"time"
 	"udp-web-logger/pkg/server"
 )
 
@@ -61,7 +60,5 @@ func main() {
 		}
 	}()
 
-	for {
-		time.Sleep(time.Microsecond * 100)
-	}
+	select {}
 }
