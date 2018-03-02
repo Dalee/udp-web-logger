@@ -16,7 +16,7 @@ func TestMessageMarshal(t *testing.T) {
 	expectedMessage := &jsonMessage{
 		Time: "Nov 17 20:34:58",
 		Unix: 1258490098,
-		alias: &alias{
+		Alias: &Alias{
 			IP:      "127.0.0.1",
 			Payload: "some test message",
 		},

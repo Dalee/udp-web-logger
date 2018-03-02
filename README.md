@@ -3,6 +3,10 @@
 [![Build Status](https://travis-ci.org/Dalee/udp-web-logger.svg?branch=master)](https://travis-ci.org/Dalee/udp-web-logger)
 [![codecov](https://codecov.io/gh/Dalee/udp-web-logger/branch/master/graph/badge.svg)](https://codecov.io/gh/Dalee/udp-web-logger)
 
+## Requirements
+
+- Go 1.10
+
 ## Why
 
 The very common use case is when your applications use `syslog` as a transport for the logs.
