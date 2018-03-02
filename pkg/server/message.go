@@ -13,12 +13,13 @@ type Message struct {
 	Time    time.Time `json:"time"`
 }
 
-type alias Message
+// Alias is just an alias to handle embedded pointers
+type Alias Message
 
 type jsonMessage struct {
 	Time string `json:"time"`
 	Unix int64  `json:"unix"`
-	*alias
+	*Alias
 }
 
 // MarshalJSON implements Marshaler interface to reformat
@@ -27,6 +28,6 @@ func (m *Message) MarshalJSON() ([]byte, error) {
 	return json.Marshal(&jsonMessage{
 		Time:  m.Time.Format(time.Stamp),
 		Unix:  m.Time.Unix(),
-		alias: (*alias)(m),
+		Alias: (*Alias)(m),
 	})
 }
