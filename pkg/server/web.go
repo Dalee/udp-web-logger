@@ -28,8 +28,8 @@ func (h *HTTPServer) Serve() {
 
 // HandleLog replies with messages taken from UDP.
 func (h *HTTPServer) HandleLog(w http.ResponseWriter, r *http.Request) {
-	w.WriteHeader(http.StatusOK)
 	w.Header().Add("Content-Type", "application/json")
+	w.WriteHeader(http.StatusOK)
 
 	lastTimestampQuery := r.URL.Query().Get("ts")
 	ts, _ := strconv.ParseInt(lastTimestampQuery, 10, 64)
